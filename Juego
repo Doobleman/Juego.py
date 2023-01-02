@@ -1,0 +1,152 @@
+import random
+
+class Combatiente:
+    def __init__(self, nombre, hp, defensa, ataque):
+        self.nombre = nombre
+        self.hp = hp
+        self.defensa = defensa
+        self.ataque = ataque
+
+    def atacar(self, otro_combatiente):
+        daño = self.ataque - otro_combatiente.defensa
+        otro_combatiente.hp -= daño
+        print(f'{self.nombre} ataca a {otro_combatiente.nombre} y le hace {daño} puntos de daño')
+
+def crear_nombre():
+    nombre = input(str('¿Cual sera el nombre de tu Heroe? '))
+    print(f'El nombre de tu Heroe es "{nombre}"')
+    return nombre
+
+nombre = crear_nombre()
+experiencia_maxima = 100
+nivel = 1
+experiencia = 0
+combatiente_1 = Combatiente(nombre, 100, 20, 30)
+
+def ganar_experiencia(cantidad):
+    global experiencia
+    global nivel
+    global experiencia_maxima
+    experiencia += cantidad
+    while experiencia >= experiencia_maxima:
+        nivel += 1
+        experiencia -= experiencia_maxima
+        experiencia_maxima += 100
+        print('Has subido al nivel', nivel)
+
+def mostrar_menu(opciones):
+    print(f'Maestro, ¿Que quieres hacer ahora?: ')
+    for clave in sorted(opciones):
+        print(f' {clave}) {opciones[clave][0]}')
+
+
+def leer_opcion(opciones, opcion_salida):
+    while True:
+        opcion = input('Opción: ')
+        if opcion in opciones or opcion == opcion_salida:
+            return opcion
+        print('Opción incorrecta, vuelva a intentarlo.')
+
+
+def ejecutar_opcion(opcion, opciones):
+    opciones[opcion][1]()
+
+def generar_menu(opciones, opcion_salida):
+    opcion = None
+    while opcion != opcion_salida:
+        mostrar_menu(opciones)
+        opcion = leer_opcion(opciones, opcion_salida)
+        ejecutar_opcion(opcion, opciones)
+        print()
+
+def combatir_low():
+    setEnem = 0
+    setEnem = random.randint(1,4)
+    print(setEnem)
+    while setEnem != 0:
+        if setEnem == 1:
+            print('Perro Salvaje')
+            combatiente_2 = Combatiente("Perro Salvaje", 60, 5, 0)
+            while True:
+                combatiente_1.atacar(combatiente_2)
+                if combatiente_2.hp <= 0:
+                    print(f"{combatiente_1.nombre} ha ganado la pelea")
+                    break
+                combatiente_2.atacar(combatiente_1)
+                if combatiente_1.hp <= 0:
+                    print(f"{combatiente_2.nombre} ha ganado la pelea")
+                    break
+            ganar_experiencia(15)
+        elif setEnem == 2:
+            print('Conejo Malvado')
+            combatiente_2 = Combatiente("Conejo Malvado", 80, 10, 10)
+            while True:
+                combatiente_1.atacar(combatiente_2)
+                if combatiente_2.hp <= 0:
+                    print(f"{combatiente_1.nombre} ha ganado la pelea")
+                    break
+                combatiente_2.atacar(combatiente_1)
+                if combatiente_1.hp <= 0:
+                    print(f"{combatiente_2.nombre} ha ganado la pelea")
+                    break
+            ganar_experiencia(25)
+        elif setEnem == 3:
+            print('Enemigo c')
+            combatiente_2 = Combatiente("Perro Salvaje", 60, 5, 0)
+            while True:
+                combatiente_1.atacar(combatiente_2)
+                if combatiente_2.hp <= 0:
+                    print(f"{combatiente_1.nombre} ha ganado la pelea")
+                    break
+                combatiente_2.atacar(combatiente_1)
+                if combatiente_1.hp <= 0:
+                    print(f"{combatiente_2.nombre} ha ganado la pelea")
+                    break
+            ganar_experiencia(30)
+        elif setEnem == 4:
+            print('Enemigo d')
+            ganar_experiencia(50)
+        else:
+            print()
+        menu_principal()
+
+def menu_principal():
+    opciones = {
+        '1': ('1. Combatir', accion1),
+        '2': ('Opción 2', accion2),
+        '3': ('Opción 3', accion3),
+        '4': ('Salir', salir)
+    }
+
+    generar_menu(opciones, '4')
+
+def accion1():
+    print('Has elegido la opción Combatir')
+    print('1.Combatir nivel bajo')
+    print('2.Combatir nivel medio')
+    print('3.Combatir nivel alto')
+    opcac1 = int(input('Elige una opcion'))
+    while opcac1 != 0:
+        if opcac1 == 1:
+            combatir_low()
+        if opcac1 == 2:
+            combatir_med()
+        if opcac1 == 3:
+            combatir_high()
+
+
+def accion2():
+    print('Has elegido la opción 2')
+
+
+def accion3():
+    print('Has elegido la opción 3')
+
+
+def salir():
+    print('Saliendo')
+    menu_principal()
+
+if __name__ == '__main__':
+    crear_nombre()
+    menu_principal()
