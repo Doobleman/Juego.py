@@ -1,16 +1,17 @@
 import random
 
 class Combatiente:
-    def __init__(self, nombre, hp, defensa, ataque):
+    def __init__(self, nombre, hp, defensa, ataque, oro):
         self.nombre = nombre
         self.hp = hp
         self.defensa = defensa
         self.ataque = ataque
+        self.oro = oro
 
     def atacar(self, otro_combatiente):
-        daño = self.ataque - otro_combatiente.defensa
-        otro_combatiente.hp -= daño
-        print(f'{self.nombre} ataca a {otro_combatiente.nombre} y le hace {daño} puntos de daño')
+        dmg = self.ataque - otro_combatiente.defensa
+        otro_combatiente.hp -= dmg
+        print(f'{self.nombre} ataca a {otro_combatiente.nombre} y le hace {dmg} puntos de daño')
 
 def crear_nombre():
     nombre = input(str('¿Cual sera el nombre de tu Heroe? '))
@@ -21,18 +22,25 @@ nombre = crear_nombre()
 experiencia_maxima = 100
 nivel = 1
 experiencia = 0
-combatiente_1 = Combatiente(nombre, 100, 20, 30)
+combatiente_1 = Combatiente(nombre, 100, 20, 30, 0)
 
 def ganar_experiencia(cantidad):
     global experiencia
     global nivel
     global experiencia_maxima
     experiencia += cantidad
+    combatiente_1.oro += cantidad / 5
     while experiencia >= experiencia_maxima:
         nivel += 1
         experiencia -= experiencia_maxima
         experiencia_maxima += 100
         print('Has subido al nivel', nivel)
+
+def perder_experiencia():
+    global experiencia
+    experiencia = experiencia/2
+    if experiencia < 0:
+        experiencia = 0
 
 def mostrar_menu(opciones):
     print(f'Maestro, ¿Que quieres hacer ahora?: ')
@@ -60,60 +68,230 @@ def generar_menu(opciones, opcion_salida):
         print()
 
 def combatir_low():
-    setEnem = 0
     setEnem = random.randint(1,4)
     print(setEnem)
     while setEnem != 0:
         if setEnem == 1:
             print('Perro Salvaje')
-            combatiente_2 = Combatiente("Perro Salvaje", 60, 5, 0)
-            while True:
+            combatiente_2 = Combatiente("Perro Salvaje", 60, 1, 35, 0)
+            while combatiente_1.hp > 0 and combatiente_2.hp > 0:
                 combatiente_1.atacar(combatiente_2)
                 if combatiente_2.hp <= 0:
                     print(f"{combatiente_1.nombre} ha ganado la pelea")
+                    ganar_experiencia(15)
                     break
                 combatiente_2.atacar(combatiente_1)
                 if combatiente_1.hp <= 0:
                     print(f"{combatiente_2.nombre} ha ganado la pelea")
+                    perder_experiencia()
                     break
-            ganar_experiencia(15)
         elif setEnem == 2:
             print('Conejo Malvado')
-            combatiente_2 = Combatiente("Conejo Malvado", 80, 10, 10)
-            while True:
+            combatiente_2 = Combatiente("Conejo Malvado", 80, 10, 40, 0)
+            while combatiente_1.hp > 0 and combatiente_2.hp > 0:
                 combatiente_1.atacar(combatiente_2)
                 if combatiente_2.hp <= 0:
                     print(f"{combatiente_1.nombre} ha ganado la pelea")
+                    ganar_experiencia(25)
                     break
                 combatiente_2.atacar(combatiente_1)
                 if combatiente_1.hp <= 0:
                     print(f"{combatiente_2.nombre} ha ganado la pelea")
+                    perder_experiencia()
                     break
-            ganar_experiencia(25)
         elif setEnem == 3:
-            print('Enemigo c')
-            combatiente_2 = Combatiente("Perro Salvaje", 60, 5, 0)
-            while True:
+            print('Rata Rabiosa')
+            combatiente_2 = Combatiente("Rata Rabiosa", 45, 1, 50, 0)
+            while combatiente_1.hp > 0 and combatiente_2.hp > 0:
                 combatiente_1.atacar(combatiente_2)
                 if combatiente_2.hp <= 0:
                     print(f"{combatiente_1.nombre} ha ganado la pelea")
+                    ganar_experiencia(30)
                     break
                 combatiente_2.atacar(combatiente_1)
                 if combatiente_1.hp <= 0:
                     print(f"{combatiente_2.nombre} ha ganado la pelea")
+                    perder_experiencia()
                     break
-            ganar_experiencia(30)
         elif setEnem == 4:
-            print('Enemigo d')
-            ganar_experiencia(50)
+            print('Slime')
+            combatiente_2 = Combatiente("Slime", 150, 20, 25, 0)
+            while combatiente_1.hp > 0 and combatiente_2.hp > 0:
+                combatiente_1.atacar(combatiente_2)
+                if combatiente_2.hp <= 0:
+                    print(f"{combatiente_1.nombre} ha ganado la pelea")
+                    ganar_experiencia(50)
+                    break
+                combatiente_2.atacar(combatiente_1)
+                if combatiente_1.hp <= 0:
+                    print(f"{combatiente_2.nombre} ha ganado la pelea")
+                    perder_experiencia()
+                    break
         else:
             print()
         menu_principal()
 
+def combatir_med():
+    setEnem = random.randint(1, 4)
+    print(setEnem)
+    while setEnem != 0:
+        if setEnem == 1:
+            print('Demonio Macabro')
+            combatiente_2 = Combatiente("Demonio Mecabro", 500, 100, 150, 0)
+            while combatiente_1.hp > 0 and combatiente_2.hp > 0:
+                combatiente_1.atacar(combatiente_2)
+                if combatiente_2.hp <= 0:
+                    print(f"{combatiente_1.nombre} ha ganado la pelea")
+                    ganar_experiencia(350)
+                    break
+                combatiente_2.atacar(combatiente_1)
+                if combatiente_1.hp <= 0:
+                    print(f"{combatiente_2.nombre} ha ganado la pelea")
+                    perder_experiencia()
+                    break
+        elif setEnem == 2:
+            print('Fantasma Asesino')
+            combatiente_2 = Combatiente("Fantasma Asesino", 650, 10, 300, 0)
+            while combatiente_1.hp > 0 and combatiente_2.hp > 0:
+                combatiente_1.atacar(combatiente_2)
+                if combatiente_2.hp <= 0:
+                    print(f"{combatiente_1.nombre} ha ganado la pelea")
+                    ganar_experiencia(500)
+                    break
+                combatiente_2.atacar(combatiente_1)
+                if combatiente_1.hp <= 0:
+                    print(f"{combatiente_2.nombre} ha ganado la pelea")
+                    perder_experiencia()
+                    break
+        elif setEnem == 3:
+            print('Ogro Hambriento')
+            combatiente_2 = Combatiente("Ogro Hambriento", 1500, 300, 100, 0)
+            while combatiente_1.hp > 0 and combatiente_2.hp > 0:
+                combatiente_1.atacar(combatiente_2)
+                if combatiente_2.hp <= 0:
+                    print(f"{combatiente_1.nombre} ha ganado la pelea")
+                    ganar_experiencia(400)
+                    break
+                combatiente_2.atacar(combatiente_1)
+                if combatiente_1.hp <= 0:
+                    print(f"{combatiente_2.nombre} ha ganado la pelea")
+                    perder_experiencia()
+                    break
+        elif setEnem == 4:
+            print('Harpia Sangrienta')
+            combatiente_2 = Combatiente("Harpia Sangrienta", 400, 50, 220, 0)
+            while combatiente_1.hp > 0 and combatiente_2.hp > 0:
+                combatiente_1.atacar(combatiente_2)
+                if combatiente_2.hp <= 0:
+                    print(f"{combatiente_1.nombre} ha ganado la pelea")
+                    ganar_experiencia(800)
+                    break
+                combatiente_2.atacar(combatiente_1)
+                if combatiente_1.hp <= 0:
+                    print(f"{combatiente_2.nombre} ha ganado la pelea")
+                    perder_experiencia()
+                    break
+        else:
+            print()
+        menu_principal()
+
+def combatir_high():
+    setEnem = random.randint(1, 4)
+    print(setEnem)
+    while setEnem != 0:
+        if setEnem == 1:
+            print('La muerte')
+            combatiente_2 = Combatiente("La muerte", 15000, 1000, 6666, 0)
+            while combatiente_1.hp > 0 and combatiente_2.hp > 0:
+                combatiente_1.atacar(combatiente_2)
+                if combatiente_2.hp <= 0:
+                    print(f"{combatiente_1.nombre} ha ganado la pelea")
+                    ganar_experiencia(20000)
+                    break
+                combatiente_2.atacar(combatiente_1)
+                if combatiente_1.hp <= 0:
+                    print(f"{combatiente_2.nombre} ha ganado la pelea")
+                    perder_experiencia()
+                    break
+        elif setEnem == 2:
+            print('Dios Oscuro')
+            combatiente_2 = Combatiente("Dios Oscuro", 20000, 5000, 4000, 0)
+            while combatiente_1.hp > 0 and combatiente_2.hp > 0:
+                combatiente_1.atacar(combatiente_2)
+                if combatiente_2.hp <= 0:
+                    print(f"{combatiente_1.nombre} ha ganado la pelea")
+                    ganar_experiencia(25000)
+                    break
+                combatiente_2.atacar(combatiente_1)
+                if combatiente_1.hp <= 0:
+                    print(f"{combatiente_2.nombre} ha ganado la pelea")
+                    perder_experiencia()
+                    break
+        elif setEnem == 3:
+            print('Diosa de la Guerra')
+            combatiente_2 = Combatiente("Diosa de la Guerra", 17500, 2500, 10000, 0)
+            while combatiente_1.hp > 0 and combatiente_2.hp > 0:
+                combatiente_1.atacar(combatiente_2)
+                if combatiente_2.hp <= 0:
+                    print(f"{combatiente_1.nombre} ha ganado la pelea")
+                    ganar_experiencia(30000)
+                    break
+                combatiente_2.atacar(combatiente_1)
+                if combatiente_1.hp <= 0:
+                    print(f"{combatiente_2.nombre} ha ganado la pelea")
+                    perder_experiencia()
+                    break
+        elif setEnem == 4:
+            print('Kraken Maldito')
+            combatiente_2 = Combatiente("Kraken Maldito", 50000, 10000, 15000, 0)
+            while combatiente_1.hp > 0 and combatiente_2.hp > 0:
+                combatiente_1.atacar(combatiente_2)
+                if combatiente_2.hp <= 0:
+                    print(f"{combatiente_1.nombre} ha ganado la pelea")
+                    ganar_experiencia(100000)
+                    break
+                combatiente_2.atacar(combatiente_1)
+                if combatiente_1.hp <= 0:
+                    print(f"{combatiente_2.nombre} ha ganado la pelea")
+                    perder_experiencia()
+                    break
+        else:
+            print()
+        menu_principal()
+
+def tienda():
+    objetos = {
+        'Runa de Vida': (50, lambda: combatiente_1.hp : (combatiente_1.hp += 10)),
+        'Runa de Daño': (50, lambda combatiente_1.ataque : combatiente_1.ataque = combatiente_1.ataque + 10),
+        'Runa de Defensa': (50, lambda combatiente_1.defensa : combatiente_1.defensa = combatiente_1.defensa + 10),
+        'Runa Maxima': (9999999, lambda combatiente_1.hp : combatiente_1.hp = combatiente_1.hp + 10000; combatiente_1.defensa = combatiente_1.defensa + 10000; combatiente_1.ataque = combatiente_1.ataque + 10000)
+    }
+    print(f'Bienvenido a la tienda {nombre}, tienes {combatiente_1.oro} oro')
+    print('Objetos disponibles:')
+    for objeto in objetos:
+        print(f'{objeto}: {objetos[objeto][0]} oro')
+    while True:
+        opcion = input('¿Que quieres comprar? (Escribe "salir" para salir de la tienda)')
+        if opcion == 'salir':
+            break
+        elif opcion in objetos:
+            precio = objetos[opcion][0]
+            cantidad = int(
+                input(f'¿Cuántas unidades de {opcion} quieres comprar? (Precio total: {precio * cantidad} oro)'))
+            if combatiente_1.oro >= precio * cantidad:
+                for i in range(cantidad):
+                    objetos[opcion][1]()
+                combatiente_1.oro -= precio * cantidad
+                print(f'Has comprado {cantidad} unidades de {opcion} por {precio * cantidad} oro')
+            else:
+                print(f'No tienes suficiente oro para comprar {opcion}')
+        else:
+            print('Esa opción no es válida')
+
 def menu_principal():
     opciones = {
         '1': ('1. Combatir', accion1),
-        '2': ('Opción 2', accion2),
+        '2': ('2. Tienda', accion2),
         '3': ('Opción 3', accion3),
         '4': ('Salir', salir)
     }
@@ -136,8 +314,8 @@ def accion1():
 
 
 def accion2():
-    print('Has elegido la opción 2')
-
+    print('Has elegido la opción Tienda')
+    tienda()
 
 def accion3():
     print('Has elegido la opción 3')
